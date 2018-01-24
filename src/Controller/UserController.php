@@ -12,9 +12,9 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class UserController extends Controller
 {
-    /**
-     * @Route("/user/add", name="addUser")
-     */
+  /**
+   * @Route("user/add", name="addUser")
+   */
     public function addUser()
     {
       // you can fetch the EntityManager via $this->getDoctrine()
@@ -38,7 +38,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/add", name="addUser")
+     * @Route("/friends/add", name="addFriends")
      */
     public function addFriends() {
 
@@ -54,9 +54,10 @@ class UserController extends Controller
 
         $rsm = new ResultSetMapping();
 
-        $query = $em->createNativeQuery('INSERT INTO user_user (user_source, user_target) VALUES (?,?)' , $rsm);
+        $query = $em->createNativeQuery('INSERT INTO friends (user_id, friend_user_id) VALUES (?,?)' , $rsm);
         $query->setParameter(1, $friend1->getId());
-        $query->setParameter(21, $friend2->getId());
+        $query->setParameter(2, $friend2->getId());
+        $users = $query->getResult();
 
 
         return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
@@ -64,7 +65,7 @@ class UserController extends Controller
     }
 
     public function listFriends($id = 3) {
-      
+
     }
 
 }
