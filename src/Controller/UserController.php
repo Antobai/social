@@ -56,14 +56,15 @@ class UserController extends Controller
       ->find($id2);
 
 
-      $friendShip = $friend1->addFriend($friend2);
-      $em->persist($friendShip);
+      $friend1->addFriend($friend2);
+      $em->persist($friend1);
+      $em->flush();
+      dump($friend1);
+
+      $friend2->addFriend($friend1);
+      $em->persist($friend2);
       $em->flush();
 
-
-      $friendShip = $friend2->addFriend($friend1);
-      $em->persist($friendShip);
-      $em->flush();
 
       return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
 
@@ -71,18 +72,7 @@ class UserController extends Controller
 
     }
 
-    /**
-    * @Route("/friends/list", name="listFriends")
-    */
-    public function listFriends($id = 3) {
-      $em = $this->getDoctrine()->getManager();
-      $user = $this->getDoctrine()
-      ->getRepository(User::class)
-      ->find($id);
-      $friends = $user->getFriends();
-      dump($friends);
-      return new Response('Friend list');
-    }
+
 
 
 }

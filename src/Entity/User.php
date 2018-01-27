@@ -83,6 +83,22 @@ class User
         return $this;
     }
 
+
+    /**
+     * Get the value of The people who I think are my friends.
+     *
+     * @return mixed
+     */
+    public function getFriends($em)
+    {
+
+        $fs = $em->getRepository(Friendship::class)->findByUser($this->id);
+        $friends = $em->getRepository(User::class)->findById($fs);
+
+        return $friends;
+    }
+
+
     /**
      * Get the value of Id
      *
@@ -232,15 +248,7 @@ class User
         return $this;
     }
 
-    /**
-     * Get the value of The people who I think are my friends.
-     *
-     * @return mixed
-     */
-    public function getFriends()
-    {
-        return $this->friends;
-    }
+
 
     /**
      * Set the value of The people who I think are my friends.

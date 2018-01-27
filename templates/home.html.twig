@@ -6,7 +6,13 @@
 
 {% block main %}
   <p>My first page</p>
-  {{user}}
+  {{user.firstName}} {{user.lastName}}
+
+  <p>Your friends are :<br>
+    {% for friend in friends %}
+    {{friend.firstName}} {{friend.lastName}}
+    {% endfor %}
+  </p>
 {% endblock %}
 
 {% block footer %}
