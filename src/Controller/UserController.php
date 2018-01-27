@@ -22,8 +22,8 @@ class UserController extends Controller
       $em = $this->getDoctrine()->getManager();
 
       $user = new User();
-      $user->setLastname('Bailly');
-      $user->setFirstname("Antonin");
+      $user->setLastname('Jean-Michel');
+      $user->setFirstname("Nulengéo");
       $user->setImg("img.png");
       $user->setBirth(new \DateTime(date("Y-m-d",  mktime(0, 0, 0, 4, 1, 1991))));
 

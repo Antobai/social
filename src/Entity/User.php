@@ -76,7 +76,7 @@ class User
         $fs->setUser($this);
         $fs->setFriend($friend);
         // set defaults
-        $fs->setHasBeenHelpful(true);
+        $fs->setDate(new \DateTime(date("Y-m-d H:i:s")));
 
         $this->addFriendship($fs);
 
@@ -93,8 +93,15 @@ class User
     {
 
         $fs = $em->getRepository(Friendship::class)->findByUser($this->id);
+        dump($fs);
         $friends = $em->getRepository(User::class)->findById($fs);
 
+        /* This method also gets current user as a friend, dirty fix for now*/
+        if($friends[0]->id == $this->id) {
+          unset($friends[0]);
+        }
+
+        dump($friends);
         return $friends;
     }
 

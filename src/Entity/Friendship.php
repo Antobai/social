@@ -24,9 +24,9 @@ use Doctrine\ORM\Mapping as ORM;
      /**
       * Example of an additional attribute.
       *
-      * @ORM\Column(type="boolean")
+      * @ORM\Column(type="datetime")
       */
-     private $hasBeenHelpful;
+     private $date;
 
      // …
 
@@ -83,21 +83,21 @@ use Doctrine\ORM\Mapping as ORM;
      *
      * @return mixed
      */
-    public function getHasBeenHelpful()
+    public function getDate()
     {
-        return $this->hasBeenHelpful;
+        return $this->date;
     }
 
     /**
      * Set the value of Example of an additional attribute.
      *
-     * @param mixed hasBeenHelpful
+     * @param mixed date
      *
      * @return self
      */
-    public function setHasBeenHelpful($hasBeenHelpful)
+    public function setDate($date)
     {
-        $this->hasBeenHelpful = $hasBeenHelpful;
+        $this->date = $date;
 
         return $this;
     }
