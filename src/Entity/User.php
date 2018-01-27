@@ -21,19 +21,17 @@ class User
     /**
      * The people who I think are my friends.
      *
-     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="user",cascade={"persist"})
      */
     private $friends;
 
     /**
-     * The people who think that I’m their friend.
+     * The people who think that I’m their friend (when they accept)
      *
-     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="friend")
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="friend",cascade={"persist"})
      */
     private $friendsWithMe;
 
-
-    // add your own fields
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -81,6 +79,8 @@ class User
         $fs->setHasBeenHelpful(true);
 
         $this->addFriendship($fs);
+
+        return $this;
     }
 
     /**

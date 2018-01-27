@@ -55,16 +55,16 @@ class UserController extends Controller
       ->getRepository(User::class)
       ->find($id2);
 
-      $friend1->addFriend($friend2);
-      //
-      // $rsm = new ResultSetMapping();
-      //
-      // $query = $em->createNativeQuery('INSERT INTO friends (user_id, friend_user_id) VALUES (?,?)' , $rsm);
-      // $query->setParameter(1, $friend1->getId());
-      // $query->setParameter(2, $friend2->getId());
-      // $users = $query->getResult();
-      //
-      //
+
+      $friendShip = $friend1->addFriend($friend2);
+      $em->persist($friendShip);
+      $em->flush();
+
+
+      $friendShip = $friend2->addFriend($friend1);
+      $em->persist($friendShip);
+      $em->flush();
+
       return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
 
 
