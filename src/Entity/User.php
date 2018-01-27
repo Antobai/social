@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -12,27 +12,26 @@ class User
 {
 
     /**
-    * @ORM\ManyToMany(targetEntity="User", mappedBy="friends")
-    */
-    private $friendsWithMe;
-
-    /**
-    * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
-    * @ORM\JoinTable(name="friends",
-    *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-    *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
-    *      )
-    */
-    private $friends;
-
-
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * The people who I think are my friends.
+     *
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="user")
+     */
+    private $friends;
+
+    /**
+     * The people who think that I’m their friend.
+     *
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="friend")
+     */
+    private $friendsWithMe;
+
 
     // add your own fields
 
@@ -55,6 +54,34 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $img;
+
+    public function __construct()
+    {
+      $this->friends = new ArrayCollection();
+      $this->friendsWithMe = new ArrayCollection();
+    }
+
+    public function addFriendship(Friendship $friendship)
+    {
+        $this->friends->add($friendship);
+        $friendship->friend->addFriendshipWithMe($friendship);
+    }
+
+    public function addFriendshipWithMe(Friendship $friendship)
+    {
+        $this->friendsWithMe->add($friendship);
+    }
+
+    public function addFriend(User $friend)
+    {
+        $fs = new Friendship();
+        $fs->setUser($this);
+        $fs->setFriend($friend);
+        // set defaults
+        $fs->setHasBeenHelpful(true);
+
+        $this->addFriendship($fs);
+    }
 
     /**
      * Get the value of Id
@@ -187,6 +214,10 @@ class User
         return $this;
     }
 
+
+
+
+
     /**
      * Set the value of Id
      *
@@ -197,6 +228,54 @@ class User
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The people who I think are my friends.
+     *
+     * @return mixed
+     */
+    public function getFriends()
+    {
+        return $this->friends;
+    }
+
+    /**
+     * Set the value of The people who I think are my friends.
+     *
+     * @param mixed friends
+     *
+     * @return self
+     */
+    public function setFriends($friends)
+    {
+        $this->friends = $friends;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The people who think that I’m their friend.
+     *
+     * @return mixed
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe;
+    }
+
+    /**
+     * Set the value of The people who think that I’m their friend.
+     *
+     * @param mixed friendsWithMe
+     *
+     * @return self
+     */
+    public function setFriendsWithMe($friendsWithMe)
+    {
+        $this->friendsWithMe = $friendsWithMe;
 
         return $this;
     }

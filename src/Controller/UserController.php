@@ -40,27 +40,34 @@ class UserController extends Controller
     /**
      * @Route("/friends/add", name="addFriends")
      */
-    public function addFriends() {
+     public function addFriends($id1 = 3,$id2 = 4) {
+
+
+
 
       $em = $this->getDoctrine()->getManager();
 
-        $friend1 = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->find(3);
+      $friend1 = $this->getDoctrine()
+      ->getRepository(User::class)
+      ->find($id1);
 
-        $friend2 = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->find(4);
+      $friend2 = $this->getDoctrine()
+      ->getRepository(User::class)
+      ->find($id2);
 
-        $rsm = new ResultSetMapping();
+      $friend1->addFriend($friend2);
+      //
+      // $rsm = new ResultSetMapping();
+      //
+      // $query = $em->createNativeQuery('INSERT INTO friends (user_id, friend_user_id) VALUES (?,?)' , $rsm);
+      // $query->setParameter(1, $friend1->getId());
+      // $query->setParameter(2, $friend2->getId());
+      // $users = $query->getResult();
+      //
+      //
+      return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
 
-        $query = $em->createNativeQuery('INSERT INTO friends (user_id, friend_user_id) VALUES (?,?)' , $rsm);
-        $query->setParameter(1, $friend1->getId());
-        $query->setParameter(2, $friend2->getId());
-        $users = $query->getResult();
 
-
-        return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
 
     }
 
