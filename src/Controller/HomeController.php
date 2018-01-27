@@ -11,15 +11,6 @@ use App\Entity\User;
 class HomeController extends Controller
 {
 
-    private function listFriends($id = 3) {
-      $em = $this->getDoctrine()->getManager();
-      $user = $this->getDoctrine()
-      ->getRepository(User::class)
-      ->find($id);
-      $friends = $user->getFriends($em);
-
-      return $friends;
-    }
     /**
      * @Route("/", name="home")
      */
@@ -30,7 +21,7 @@ class HomeController extends Controller
         ->getRepository(User::class)
         ->find(3);
 
-        $friends = $this->listFriends($user->getId());
+        $friends = $user->getFriends($em);
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
         	'user' => $user,
