@@ -71,8 +71,18 @@ class UserController extends Controller
 
     }
 
+    /**
+    * @Route("/friends/list", name="listFriends")
+    */
     public function listFriends($id = 3) {
-
+      $em = $this->getDoctrine()->getManager();
+      $user = $this->getDoctrine()
+      ->getRepository(User::class)
+      ->find($id);
+      $friends = $user->getFriends();
+      dump($friends);
+      return new Response('Friend list');
     }
+
 
 }
