@@ -42,6 +42,7 @@ class User
     {
       // Ici, on utilise l'ArrayCollection vraiment comme un tableau
       $this->friends[] = $friend;
+      $this->friendsWithMe[] = $friend;
 
       return $this;
     }

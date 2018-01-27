@@ -58,21 +58,29 @@ class UserController extends Controller
         $em->persist($friendhsip);
 
         $em->flush();
-        /*
-        $rsm = new ResultSetMapping();
-        $query = $em->createNativeQuery('INSERT INTO friends (user_id, friend_user_id) VALUES (?,?)' , $rsm);
-        $query->setParameter(1, $friend1->getId());
-        $query->setParameter(2, $friend2->getId());
-        $query->execute();*/
-
-
-
 
         return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
 
     }
 
+    /**
+     * @Route("/friends/list", name="listFriends")
+     */
     public function listFriends($id = 3) {
+
+
+      $em = $this->getDoctrine()->getManager();
+      $user = $this->getDoctrine()
+      ->getRepository(User::class)
+      ->find($id);
+
+      $friends = $user->getFriends();
+
+      dump($friends);
+
+      return new Response('Friend list');
+
+
 
     }
 
