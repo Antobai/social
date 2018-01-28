@@ -20,7 +20,9 @@ security:
                 target: /
         main:
             anonymous: ~
-            http_basic: ~
+            form_login:
+                login_path: login
+                check_path: login
             provider: our_db_provider
             logout:
                 path: /logout
