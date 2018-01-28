@@ -16,10 +16,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->find(3);
+        $user = $this->getUser();
 
         $friends = $user->getFriends($em);
         return $this->render('home.html.twig', [

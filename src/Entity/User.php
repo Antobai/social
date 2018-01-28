@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
 
     /**
@@ -32,6 +32,11 @@ class User
      */
     private $friendsWithMe;
 
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -44,6 +49,16 @@ class User
     private $last_name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $birth;
@@ -53,8 +68,14 @@ class User
      */
     private $img;
 
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
+      $this->isActive = true;
       $this->friends = new ArrayCollection();
       $this->friendsWithMe = new ArrayCollection();
     }
@@ -93,15 +114,13 @@ class User
     {
 
         $fs = $em->getRepository(Friendship::class)->findByUser($this->id);
-        dump($fs);
         $friends = $em->getRepository(User::class)->findById($fs);
 
         /* This method also gets current user as a friend, dirty fix for now*/
-        if($friends[0]->id == $this->id) {
+        if(isset($friends[0]) && $friends[0]->id == $this->id) {
           unset($friends[0]);
         }
 
-        dump($friends);
         return $friends;
     }
 
@@ -293,6 +312,102 @@ class User
         $this->friendsWithMe = $friendsWithMe;
 
         return $this;
+    }
+
+
+    /**
+     * Get the value of Password
+     *
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of Password
+     *
+     * @param mixed password
+     *
+     * @return self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Email
+     *
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of Email
+     *
+     * @param mixed email
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 
 }
