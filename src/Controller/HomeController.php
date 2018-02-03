@@ -21,11 +21,19 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
+        $users = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findAll();
+
+
+
         $friends = $user->getFriends($em);
+        dump($friends); 
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
         	'user' => $user,
-          'friends' => $friends
+          'friends' => $friends,
+          'users' => $users
         ]);
     }
 }

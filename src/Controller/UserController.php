@@ -12,48 +12,20 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class UserController extends Controller
 {
-  /**
-   * @Route("user/add", name="addUser")
-   */
-    public function addUser()
-    {
-      // you can fetch the EntityManager via $this->getDoctrine()
-      // or you can add an argument to your action: index(EntityManagerInterface $em)
-      $em = $this->getDoctrine()->getManager();
-
-      $user = new User();
-      $user->setLastname('Jean-Michel');
-      $user->setFirstname("Nulengéo");
-      $user->setImg("img.png");
-      $user->setBirth(new \DateTime(date("Y-m-d",  mktime(0, 0, 0, 5, 10, 1991))));
-
-      // tell Doctrine you want to (eventually) save the Product (no queries yet)
-      $em->persist($user);
-
-      // actually executes the queries (i.e. the INSERT query)
-      $em->flush();
-
-      return new Response('Saved new user with id '.$user->getId());
-
-    }
 
     /**
-     * @Route("/friends/add", name="addFriends")
+     * @Route("/friends/add/{id}", name="addFriends")
      */
-     public function addFriends($id1 = 3,$id2 = 4) {
-
-
+     public function addFriends($id) {
 
 
       $em = $this->getDoctrine()->getManager();
 
-      $friend1 = $this->getDoctrine()
-      ->getRepository(User::class)
-      ->find($id1);
+      $friend1 = $this->getUser();
 
       $friend2 = $this->getDoctrine()
       ->getRepository(User::class)
-      ->find($id2);
+      ->find($id);
 
 
       $friend1->addFriend($friend2);
