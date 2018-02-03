@@ -25,7 +25,7 @@ class UserController extends Controller
       $user->setLastname('Jean-Michel');
       $user->setFirstname("Nulengéo");
       $user->setImg("img.png");
-      $user->setBirth(new \DateTime(date("Y-m-d",  mktime(0, 0, 0, 4, 1, 1991))));
+      $user->setBirth(new \DateTime(date("Y-m-d",  mktime(0, 0, 0, 5, 10, 1991))));
 
       // tell Doctrine you want to (eventually) save the Product (no queries yet)
       $em->persist($user);

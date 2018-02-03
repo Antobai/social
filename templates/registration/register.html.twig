@@ -1,0 +1,24 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block header %}
+{% endblock %}
+
+
+
+{% block main %}
+  <main role="main">
+
+    {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.plainPassword.first) }}
+        {{ form_row(form.plainPassword.second) }}
+
+        <button type="submit">Register!</button>
+    {{ form_end(form) }}
+
+  </main>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
