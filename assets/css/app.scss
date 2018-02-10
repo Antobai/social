@@ -2,3 +2,29 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $fa-font-path: "~font-awesome/fonts";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+.no-mb {
+  margin-bottom: 0;
+}
+h2.friend {
+  font-size: 14px;
+}
+
+#sidebar {
+  border-right: 1px solid black;
+}
+div.friend {
+  border-right: 1px solid black;
+  min-height: 100px;
+}
+#friends {
+  margin-bottom: 15px;
+}
+
+footer {
+  background-color: #333333;
+  padding-top: 10px;
+}
+footer > * {
+    color:#ffffff;
+}
