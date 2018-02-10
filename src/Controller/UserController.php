@@ -18,27 +18,27 @@ class UserController extends Controller
      */
      public function addFriends($id) {
 
+      $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
 
       $em = $this->getDoctrine()->getManager();
 
-      $friend1 = $this->getUser();
+      $user = $this->getUser();
 
-      $friend2 = $this->getDoctrine()
+      $friend = $this->getDoctrine()
       ->getRepository(User::class)
       ->find($id);
 
 
-      $friend1->addFriend($friend2);
-      $em->persist($friend1);
-      $em->flush();
-      dump($friend1);
-
-      $friend2->addFriend($friend1);
-      $em->persist($friend2);
+      $user->addFriend($friend);
+      $em->persist($user);
       $em->flush();
 
+      $friend->addFriend($user);
+      $em->persist($friend);
+      $em->flush();
 
-      return new Response('Saved new friends with id '.$friend1->getId().' '.$friend2->getId());
+
+      return $this->redirectToRoute('home');
 
 
 

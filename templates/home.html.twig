@@ -29,6 +29,17 @@
           </section>
           <section id="findFriends" class="friends row">
             <h2>Find New Friends</h2>
+            {% for user in potentialFriends %}
+              {% if user.id != currentUser.id %}
+              <div class="col-sm-6 col-lg-4 friend">
+                <h2 class="friend">  {{user.firstName}} {{user.lastName}}</h2>
+                <p><a class="btn btn-secondary" href="{{ path('addFriends', {'id': user.id}) }}" role="button">Add as friend</a>  </p>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </section>
+          <section id="usersList" class="friends row">
+            <h2>All users</h2>
             {% for user in users %}
               {% if user.id != currentUser.id %}
               <div class="col-sm-6 col-lg-4 friend">
@@ -45,7 +56,7 @@
         </section>
       </div>
 
-  
+
     </div> <!-- /container -->
 
   </main>

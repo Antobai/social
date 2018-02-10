@@ -117,9 +117,7 @@ class User implements UserInterface, \Serializable
     {
 
         $fs = $em->getRepository(Friendship::class)->findByUser($this->id);
-        dump($fs);
         $friends = $em->getRepository(User::class)->findById($fs);
-        dump($friends);
 
         /* This method also gets current user as a friend, dirty fix for now*/
         foreach ($friends as $key => $friend) {
