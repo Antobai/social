@@ -27,13 +27,20 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="">Profile</a></li>
-                <li><a href="#">Settings</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{{path('logout')}}">Logout</a></li>
-              </ul>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              {% if currentUser is defined %}
+                {{currentUser.firstName}} {{currentUser.lastName}}
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="">Profile</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="{{path('logout')}}">Logout</a></li>
+                </ul>
+              {% else %}
+                Anonymous
+              {% endif %}
+              </a>
             </li>
           </ul>
           <form class="navbar-form navbar-right">
