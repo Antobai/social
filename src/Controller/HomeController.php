@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Entity\User;
+use App\Entity\Post;
+
 
 class HomeController extends Controller
 {
@@ -20,7 +22,6 @@ class HomeController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        dump($user);
 
         $users = $this->getDoctrine()
         ->getRepository(User::class)
@@ -37,6 +38,12 @@ class HomeController extends Controller
           }
         }
 
+        $posts = $this->getDoctrine()
+        ->getRepository(Post::class)
+        ->findBy(
+            ['user' => $friends]
+        );
+        dump($posts);
 
 
         return $this->render('home.html.twig', [
@@ -44,7 +51,8 @@ class HomeController extends Controller
         	'currentUser' => $user,
           'friends' => $friends,
           'potentialFriends' => $potentialFriends,
-          'users' => $users
+          'users' => $users,
+          'posts' => $posts
         ]);
     }
 }

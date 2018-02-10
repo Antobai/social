@@ -76,11 +76,25 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
+     */
+    private $posts;
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
     public function __construct()
     {
       $this->isActive = true;
       $this->friends = new ArrayCollection();
       $this->friendsWithMe = new ArrayCollection();
+      $this->posts = new ArrayCollection();
     }
 
     public function addFriendship(Friendship $friendship)

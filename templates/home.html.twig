@@ -52,7 +52,12 @@
         </section>
 
         <section class="col-xs-12 col-sm-6 col-md-8 col-lg-9">
-          Posts will go there
+          {% for post in posts %}
+            <article class="post" id="post_{{post.id}}">
+              <p>{{post.content}}</p>
+              <p>Author : {{post.user.firstName}} {{post.user.lastName}}</p>
+            </article>
+          {% endfor %}
         </section>
       </div>
 
