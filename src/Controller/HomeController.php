@@ -28,10 +28,10 @@ class HomeController extends Controller
 
 
         $friends = $user->getFriends($em);
-        dump($friends); 
+        dump($friends);
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
-        	'user' => $user,
+        	'currentUser' => $user,
           'friends' => $friends,
           'users' => $users
         ]);

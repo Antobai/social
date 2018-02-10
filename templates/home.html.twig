@@ -10,7 +10,7 @@
     <div class="jumbotron">
       <div class="container">
         <h1>Page - {{site_base_title}}</h1>
-        <p>{{user.firstName}} {{user.lastName}}</p>
+        <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
       </div>
     </div>
 
@@ -26,15 +26,17 @@
         </div>
         {% endfor %}
       </div>
-      
+
       <div class="row">
         <h2>Find friends</h2>
         {% for user in users %}
+        {% if user.id != currentUser.id %}
         <div class="col-md-4">
           <h2>  {{user.firstName}} {{user.lastName}}</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn btn-secondary" href="{{ path('addFriends', {'id': user.id}) }}" role="button">Add as friend</a></p>
         </div>
+        {% endif %}
         {% endfor %}
 
       </div>
