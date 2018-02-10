@@ -43,7 +43,6 @@ class HomeController extends Controller
         ->findBy(
             ['user' => $friends]
         );
-        dump($posts);
 
 
         return $this->render('home.html.twig', [
