@@ -11,6 +11,10 @@
       <div class="container">
         <h1>Your Feed - {{site_base_title}}</h1>
         <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
+        {{ form_start(postForm) }}
+            {{ form_row(postForm.content) }}
+            <button type="submit">Post !</button>
+        {{ form_end(postForm) }}
       </div>
     </div>
 

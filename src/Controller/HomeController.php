@@ -6,8 +6,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpFoundation\Request;
+
 use App\Entity\User;
 use App\Entity\Post;
+
+use App\Form\PostType;
 
 
 class HomeController extends Controller
@@ -16,7 +20,7 @@ class HomeController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
 
@@ -44,6 +48,26 @@ class HomeController extends Controller
             ['user' => $friends]
         );
 
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post,array(
+            'action' => $this->generateUrl('addPost'),
+            'method' => 'POST',
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+
+            return $this->redirectToRoute('home');
+        }
+
 
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
@@ -51,7 +75,8 @@ class HomeController extends Controller
           'friends' => $friends,
           'potentialFriends' => $potentialFriends,
           'users' => $users,
-          'posts' => $posts
+          'posts' => $posts,
+          'postForm' => $form->createView()
         ]);
     }
 }
