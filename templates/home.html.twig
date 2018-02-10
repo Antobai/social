@@ -23,7 +23,7 @@
             {% for friend in friends %}
             <div class="col-sm-6 col-lg-4 friend">
               <h2 class="friend">  {{friend.firstName}} {{friend.lastName}}</h2>
-              <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+              <p><a class="btn btn-secondary" href="{{ path('userDetails', {'id': friend.id}) }}" role="button">View details &raquo;</a></p>
             </div>
             {% endfor %}
           </section>
@@ -44,7 +44,7 @@
               {% if user.id != currentUser.id %}
               <div class="col-sm-6 col-lg-4 friend">
                 <h2 class="friend">  {{user.firstName}} {{user.lastName}}</h2>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                <p><a class="btn btn-secondary" href="{{ path('userDetails', {'id': user.id}) }}" role="button">View details &raquo;</a></p>
               </div>
               {% endif %}
             {% endfor %}
