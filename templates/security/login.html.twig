@@ -21,7 +21,7 @@
           is redirected to on success (more details below)
           <input type="hidden" name="_target_path" value="/account" />
       #}
-
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
       <button type="submit">login</button>
   </form>
   <a href="{{path('user_registration')}}">Register</a>
