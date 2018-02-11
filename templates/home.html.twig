@@ -6,28 +6,18 @@
 {% block main %}
   <main role="main">
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Your Feed - {{site_base_title}}</h1>
-        <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
-        {{ form_start(postForm) }}
-            {{ form_row(postForm.content) }}
-            <button type="submit">Post !</button>
-        {{ form_end(postForm) }}
-      </div>
-    </div>
-
     <div class="container-fluid">
 
       <div class="row">
         <section class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="sidebar">
-          <section id="friends" class="friends row">
+          <section id="friends" class="friends row first">
             <h2>Your friends</h2>
             {% for friend in friends %}
             <div class="col-sm-6 col-lg-4 friend">
-              <h2 class="friend">  {{friend.firstName}} {{friend.lastName}}</h2>
-              <p><a class="btn btn-secondary" href="{{ path('userDetails', {'id': friend.id}) }}" role="button">View details &raquo;</a></p>
+              <div class="col-sm-12">
+                <h3 class="friend">  {{friend.firstName}} {{friend.lastName}}</h3>
+                <a class="btn btn-secondary" href="{{ path('userDetails', {'id': friend.id}) }}" role="button">View details &raquo;</a>
+              </div>
             </div>
             {% endfor %}
           </section>
@@ -36,8 +26,10 @@
             {% for user in potentialFriends %}
               {% if user.id != currentUser.id %}
               <div class="col-sm-6 col-lg-4 friend">
-                <h2 class="friend">  {{user.firstName}} {{user.lastName}}</h2>
-                <p><a class="btn btn-secondary" href="{{ path('addFriends', {'id': user.id}) }}" role="button">Add as friend</a>  </p>
+                <div class="col-sm-12">
+                  <h3 class="friend">  {{user.firstName}} {{user.lastName}}</h3>
+                  <a class="btn btn-primary" href="{{ path('addFriends', {'id': user.id}) }}" role="button">Add as friend</a>
+                </div>
               </div>
               {% endif %}
             {% endfor %}
@@ -47,21 +39,38 @@
             {% for user in users %}
               {% if user.id != currentUser.id %}
               <div class="col-sm-6 col-lg-4 friend">
-                <h2 class="friend">  {{user.firstName}} {{user.lastName}}</h2>
-                <p><a class="btn btn-secondary" href="{{ path('userDetails', {'id': user.id}) }}" role="button">View details &raquo;</a></p>
+                <div class="col-md-12">
+                  <h3 class="friend">  {{user.firstName}} {{user.lastName}}</h3>
+                  <a class="btn btn-secondary" href="{{ path('userDetails', {'id': user.id}) }}" role="button">View details &raquo;</a>
+                </div>
               </div>
               {% endif %}
             {% endfor %}
           </section>
         </section>
 
-        <section class="col-xs-12 col-sm-6 col-md-8 col-lg-9">
-          {% for post in posts %}
-            <article class="post" id="post_{{post.id}}">
-              <p>{{post.content}}</p>
-              <p>Author : {{post.user.firstName}} {{post.user.lastName}}</p>
-            </article>
-          {% endfor %}
+        <section class="col-xs-12 col-sm-6 col-md-8 col-lg-9" id="main">
+          <div class="jumbotron">
+            <div class="container">
+              <!--<h1>Your Feed - {{site_base_title}}</h1>-->
+              <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
+              <hr>
+              <h4>Write a new post</h2>
+              {{ form_start(postForm) }}
+                  {{ form_row(postForm.content) }}
+                  <button type="submit" class="btn btn-primary">Post !</button>
+              {{ form_end(postForm) }}
+            </div>
+          </div>
+          <section id="posts">
+            {% for post in posts %}
+              <article class="post" id="post_{{post.id}}">
+                <h3>{{post.user.firstName}} {{post.user.lastName}}</h3>
+                <hr>
+                <p>{{post.content}}</p>
+              </article>
+            {% endfor %}
+          </section>
         </section>
       </div>
 

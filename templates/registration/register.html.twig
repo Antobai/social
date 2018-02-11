@@ -7,17 +7,30 @@
 
 
 {% block main %}
+
+
+
   <main role="main">
 
-    {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.firstname) }}
-        {{ form_row(form.lastname) }}
-        {{ form_row(form.plainPassword.first) }}
-        {{ form_row(form.plainPassword.second) }}
+    <div class="container">
 
-        <button type="submit">Register!</button>
-    {{ form_end(form) }}
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          {{ form_start(form, { 'attr' : { 'class': 'login-form' } }) }}
+              {{ form_row(form.email) }}
+              {{ form_row(form.firstname) }}
+              {{ form_row(form.lastname) }}
+              {{ form_row(form.plainPassword.first) }}
+              {{ form_row(form.plainPassword.second) }}
+              <br>
+              <button type="submit" class="btn btn-primary">Register!</button>
+              {{ form_end(form) }}
+
+        </div>
+      </div>
+
+
+    </div> <!-- /container -->
 
   </main>
 {% endblock %}

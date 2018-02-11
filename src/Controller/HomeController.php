@@ -45,7 +45,8 @@ class HomeController extends Controller
         $posts = $this->getDoctrine()
         ->getRepository(Post::class)
         ->findBy(
-            ['user' => $friends]
+            ['user' => $friends],
+            ['id' => 'DESC']
         );
 
         $post = new Post();

@@ -9,19 +9,24 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Your Feed - {{site_base_title}}</h1>
-        <p>{{currentUser.firstName}} {{currentUser.lastName}}</p>
+        <h1>User details - {{user.firstName}} {{user.lastName}}</h1>
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid userDetails">
 
       <div class="row">
 
-        <h2>{{user.firstName}} {{user.lastName}}</h2>
-        <ul>
-          {{user.email}}
-        </ul>
+        <div class="col-sm-12">
+
+          <h2></h2>
+          <ul>
+            {{user.firstName}} {{user.lastName}}<br>
+            {{user.email}}
+
+          </ul>
+
+        </div>
 
       </div>
 
