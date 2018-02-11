@@ -79,7 +79,7 @@ use Doctrine\ORM\Mapping as ORM;
     }
 
     /**
-     * Get the value of Example of an additional attribute.
+     * Get the value of Date
      *
      * @return mixed
      */
@@ -89,7 +89,7 @@ use Doctrine\ORM\Mapping as ORM;
     }
 
     /**
-     * Set the value of Example of an additional attribute.
+     * Set the value of Date
      *
      * @param mixed date
      *

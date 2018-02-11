@@ -46,7 +46,7 @@ class HomeController extends Controller
         ->getRepository(Post::class)
         ->findBy(
             ['user' => $friends],
-            ['id' => 'DESC']
+            ['datetime' => 'DESC']
         );
 
         $post = new Post();

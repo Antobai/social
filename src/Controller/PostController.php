@@ -33,7 +33,7 @@ class PostController extends Controller
      if ($form->isSubmitted() && $form->isValid()) {
 
        $em = $this->getDoctrine()->getManager();
-       $post->setDatetime(new \DateTime(date("Y-m-d")));
+       $post->setDatetime(new \DateTime(date("Y-m-d H:i:s")));
        $post->setUser($user);
        $em->persist($post);
        $em->flush();
@@ -73,7 +73,7 @@ class PostController extends Controller
       ->getRepository(Post::class)
       ->findBy(
           ['user' => $user],
-          ['id' => 'DESC']
+          ['datetime' => 'DESC']
       );
 
       $post = new Post();
