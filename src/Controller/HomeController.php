@@ -87,11 +87,7 @@ class HomeController extends Controller
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
         	'currentUser' => $user,
-<<<<<<< HEAD
           'friends' => $friends,
-=======
-          'friendships' => $friendships,
->>>>>>> parent of 0e101eb... minor fixes since relationships logic changed
           'potentialFriends' => $potentialFriends,
           'users' => $users,
           'posts' => $posts,

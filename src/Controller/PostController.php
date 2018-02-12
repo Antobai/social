@@ -118,7 +118,7 @@ class PostController extends Controller
     return $this->render('home.html.twig', [
       'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
       'currentUser' => $user,
-      'friendships' => $friends,
+      'friends' => $friends,
       'potentialFriends' => $potentialFriends,
       'users' => $users,
       'posts' => $posts,
