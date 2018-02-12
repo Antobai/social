@@ -26,7 +26,6 @@ use Doctrine\ORM\Mapping as ORM;
       */
      private $date;
 
-     // …
 
     /**
      * Get the value of User
@@ -98,6 +97,11 @@ use Doctrine\ORM\Mapping as ORM;
         $this->date = $date;
 
         return $this;
+    }
+
+
+    public function __toString() {
+      return $this->user." - ".$this->friend;
     }
 
 }
