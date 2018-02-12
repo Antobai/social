@@ -49,63 +49,81 @@ class PostController extends Controller
    */
   public function myPosts(Request $request)
   {
-      $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+    
+    /* This function is copy/paste of homeController:index except that we gather posts from current user instead of friends, needs refactoring*/
 
-      $em = $this->getDoctrine()->getManager();
-      $user = $this->getUser();
+    $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
 
-      $users = $this->getDoctrine()
-      ->getRepository(User::class)
-      ->findAll();
+    $em = $this->getDoctrine()->getManager();
 
-      $potentialFriends = $users;
+    //get current user
+    $user = $this->getUser();
 
-      $friends = $user->getFriends($em);
+    //get All users (for dev purposes)
+    $users = $this->getDoctrine()
+    ->getRepository(User::class)
+    ->findAll();
 
-      /* Unset current friends from friends suggestions, need to refactor this with a query*/
-      foreach ($users as $key => $potentialFriend) {
-        if(in_array($potentialFriend,$friends) ) {
-          unset($potentialFriends[$key]);
-        }
+    //get friendShips
+    $friendships = $user->getFriends();
+    dump($friendships);
+
+    //make an array of friends from friendships
+    $friends = array();
+    foreach ($friendships as $key => $friendship) {
+      array_push($friends,$friendship->getFriend());
+    }
+
+    //get all users except friends
+    $potentialFriends = $users;
+    /* Unset current friends from friends suggestions, there must be a cleaner way to do this*/
+    foreach ($users as $key => $potentialFriend) {
+      if(in_array($potentialFriend,$friends) ) {
+        unset($potentialFriends[$key]);
       }
-
-      $posts = $this->getDoctrine()
-      ->getRepository(Post::class)
-      ->findBy(
-          ['user' => $user],
-          ['datetime' => 'DESC']
-      );
-
-      $post = new Post();
-      $form = $this->createForm(PostType::class, $post,array(
-          'action' => $this->generateUrl('addPost'),
-          'method' => 'POST',
-      ));
-
-      $form->handleRequest($request);
-      if ($form->isSubmitted() && $form->isValid()) {
+    }
 
 
-          $em = $this->getDoctrine()->getManager();
-          $em->persist($post);
-          $em->flush();
-
-          // ... do any other work - like sending them an email, etc
-          // maybe set a "flash" success message for the user
-
-          return $this->redirectToRoute('home');
-      }
+    //get all posts from friends
+    $posts = $this->getDoctrine()
+    ->getRepository(Post::class)
+    ->findBy(
+        ['user' => $user],
+        ['datetime' => 'ASC']
+    );
 
 
-      return $this->render('home.html.twig', [
-        'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
-        'currentUser' => $user,
-        'friends' => $friends,
-        'potentialFriends' => $potentialFriends,
-        'users' => $users,
-        'posts' => $posts,
-        'postForm' => $form->createView()
-      ]);
+    //build the new post form
+    $post = new Post();
+    $form = $this->createForm(PostType::class, $post,array(
+        'action' => $this->generateUrl('addPost'),
+        'method' => 'POST',
+    ));
+
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($post);
+        $em->flush();
+
+        // ... do any other work - like sending them an email, etc
+        // maybe set a "flash" success message for the user
+
+        return $this->redirectToRoute('home');
+    }
+
+
+    return $this->render('home.html.twig', [
+      'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
+      'currentUser' => $user,
+      'friendships' => $friendships,
+      'potentialFriends' => $potentialFriends,
+      'users' => $users,
+      'posts' => $posts,
+      'postForm' => $form->createView()
+    ]);
   }
 
 

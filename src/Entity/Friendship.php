@@ -22,8 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
      public $friend;
 
      /**
-      * Example of an additional attribute.
-      *
       * @ORM\Column(type="datetime")
       */
      private $date;

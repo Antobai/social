@@ -127,21 +127,9 @@ class User implements UserInterface, \Serializable
      *
      * @return mixed
      */
-    public function getFriends($em)
+    public function getFriends()
     {
-
-        $fs = $em->getRepository(Friendship::class)->findByUser($this->id);
-        $friends = $em->getRepository(User::class)->findById($fs);
-
-        /* This method also gets current user as a friend, dirty fix for now*/
-        foreach ($friends as $key => $friend) {
-          if($friend->id == $this->id) {
-            unset($friends[$key]);
-          }
-        }
-
-
-        return $friends;
+        return $this->friends;
     }
 
 

@@ -25,16 +25,26 @@ class HomeController extends Controller
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
 
         $em = $this->getDoctrine()->getManager();
+
+        //get current user
         $user = $this->getUser();
 
+        //get All users (for dev purposes)
         $users = $this->getDoctrine()
         ->getRepository(User::class)
         ->findAll();
 
+        //get friendShips
+        $friendships = $user->getFriends();
+
+        //make an array of friends from friendships
+        $friends = array();
+        foreach ($friendships as $key => $friendship) {
+          array_push($friends,$friendship->getFriend());
+        }
+
+        //get all users except friends
         $potentialFriends = $users;
-
-        $friends = $user->getFriends($em);
-
         /* Unset current friends from friends suggestions, need to refactor this with a query*/
         foreach ($users as $key => $potentialFriend) {
           if(in_array($potentialFriend,$friends) ) {
@@ -42,6 +52,8 @@ class HomeController extends Controller
           }
         }
 
+
+        //get all posts from friends
         $posts = $this->getDoctrine()
         ->getRepository(Post::class)
         ->findBy(
@@ -49,6 +61,8 @@ class HomeController extends Controller
             ['datetime' => 'DESC']
         );
 
+
+        //build the new post form
         $post = new Post();
         $form = $this->createForm(PostType::class, $post,array(
             'action' => $this->generateUrl('addPost'),
@@ -73,7 +87,7 @@ class HomeController extends Controller
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
         	'currentUser' => $user,
-          'friends' => $friends,
+          'friendships' => $friendships,
           'potentialFriends' => $potentialFriends,
           'users' => $users,
           'posts' => $posts,
