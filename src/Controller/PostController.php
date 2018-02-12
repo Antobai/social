@@ -49,7 +49,7 @@ class PostController extends Controller
    */
   public function myPosts(Request $request)
   {
-    
+
     /* This function is copy/paste of homeController:index except that we gather posts from current user instead of friends, needs refactoring*/
 
     $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
@@ -118,7 +118,7 @@ class PostController extends Controller
     return $this->render('home.html.twig', [
       'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
       'currentUser' => $user,
-      'friendships' => $friendships,
+      'friendships' => $friends,
       'potentialFriends' => $potentialFriends,
       'users' => $users,
       'posts' => $posts,
