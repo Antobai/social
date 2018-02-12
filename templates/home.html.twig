@@ -12,11 +12,11 @@
         <section class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="sidebar">
           <section id="friends" class="friends row first">
             <h2>Your friends</h2>
-            {% for friend in friends %}
+            {% for friendship in friendships %}
             <div class="col-sm-6 col-lg-4 friend">
               <div class="col-sm-12">
-                <h3 class="friend">  {{friend.firstName}} {{friend.lastName}}</h3>
-                <a class="btn btn-secondary" href="{{ path('userDetails', {'id': friend.id}) }}" role="button">View details &raquo;</a>
+                <h3 class="friend">  {{friendship.friend.firstName}} {{friendship.friend.lastName}}</h3>
+                <a class="btn btn-secondary" href="{{ path('userDetails', {'id': friendship.friend.id}) }}" role="button">View details &raquo;</a>
               </div>
             </div>
             {% endfor %}

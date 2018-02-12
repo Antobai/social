@@ -45,7 +45,7 @@ class HomeController extends Controller
 
         //get all users except friends
         $potentialFriends = $users;
-        /* Unset current friends from friends suggestions, there must be a cleaner way to do this*/
+        /* Unset current friends from friends suggestions, need to refactor this with a query*/
         foreach ($users as $key => $potentialFriend) {
           if(in_array($potentialFriend,$friends) ) {
             unset($potentialFriends[$key]);
@@ -87,7 +87,11 @@ class HomeController extends Controller
         return $this->render('home.html.twig', [
         	'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__),
         	'currentUser' => $user,
+<<<<<<< HEAD
           'friends' => $friends,
+=======
+          'friendships' => $friendships,
+>>>>>>> parent of 0e101eb... minor fixes since relationships logic changed
           'potentialFriends' => $potentialFriends,
           'users' => $users,
           'posts' => $posts,
