@@ -53,22 +53,22 @@ class HomeController extends Controller
           }
         }
 
-        if($myposts !== false) {
-          //get all posts from user
-          $posts = $this->getDoctrine()
-          ->getRepository(Post::class)
-          ->findBy(
-              ['user' => $user],
-              ['datetime' => 'ASC']
-          );
-        }
-        else {
+        if($myposts === false) {
           //get all posts from friends
           $posts = $this->getDoctrine()
           ->getRepository(Post::class)
           ->findBy(
               ['user' => $friends],
               ['datetime' => 'DESC']
+          );
+        }
+        else {
+          //get all posts from user
+          $posts = $this->getDoctrine()
+          ->getRepository(Post::class)
+          ->findBy(
+              ['user' => $user],
+              ['datetime' => 'ASC']
           );
         }
 
