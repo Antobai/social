@@ -18,10 +18,11 @@ class HomeController extends Controller
 {
 
     /**
-     * @Route("/", name="home")
+     * @Route("/{myposts}", name="home", defaults={"myposts"=false})
      */
-    public function index(Request $request)
+    public function index(Request $request, $myposts)
     {
+
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
 
         $em = $this->getDoctrine()->getManager();
@@ -52,14 +53,25 @@ class HomeController extends Controller
           }
         }
 
+        if($myposts !== false) {
+          //get all posts from user
+          $posts = $this->getDoctrine()
+          ->getRepository(Post::class)
+          ->findBy(
+              ['user' => $user],
+              ['datetime' => 'ASC']
+          );
+        }
+        else {
+          //get all posts from friends
+          $posts = $this->getDoctrine()
+          ->getRepository(Post::class)
+          ->findBy(
+              ['user' => $friends],
+              ['datetime' => 'DESC']
+          );
+        }
 
-        //get all posts from friends
-        $posts = $this->getDoctrine()
-        ->getRepository(Post::class)
-        ->findBy(
-            ['user' => $friends],
-            ['datetime' => 'DESC']
-        );
 
 
         //build the new post form
