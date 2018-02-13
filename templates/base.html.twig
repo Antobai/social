@@ -32,10 +32,10 @@
               {% endif %}
               </a></li>
             <li
-            {% if app.request.get('myposts') == true %}
+            {% if app.request.get('myposts') == "myposts" %}
             class="active"
-            {% endif %}><a href="{{ path('home', {'myposts': true}) }}">My Posts
-              {% if app.request.get('myposts') == true %}
+            {% endif %}><a href="{{ path('home', {'myposts': "myposts"}) }}">My Posts
+              {% if app.request.get('myposts') == "myposts" %}
               <span class="sr-only">(current)</span>
               {% endif %}
             </a></li>
