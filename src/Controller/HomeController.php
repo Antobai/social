@@ -18,7 +18,7 @@ class HomeController extends Controller
 {
 
     /**
-     * @Route("/{myposts}", name="home", defaults={"myposts"=false})
+     * @Route("/home/{myposts}", name="home", defaults={"myposts"=false})
      */
     public function index(Request $request, $myposts)
     {
