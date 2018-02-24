@@ -16,6 +16,15 @@ use App\Form\PostType;
 
 class HomeController extends Controller
 {
+  //When user tries "/" route, Forces a redirect to login if anonymous or to /home if connected
+  /**
+   * @Route("/", name="default")
+   */
+  public function redirectToLogin(Request $request)
+  {
+      $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+      return $this->redirectToRoute('home');
+  }
 
     /**
      * @Route("/home/{myposts}", name="home", defaults={"myposts"=false})
